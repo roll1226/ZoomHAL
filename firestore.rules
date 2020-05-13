@@ -1,0 +1,80 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function incomingData() {
+      return request.resource.data;
+    }
+
+    function isRequestedTime(time) {
+      return time == request.time;
+    }
+
+    match /monday/{mondayID} {
+      allow read: if isAuthenticated();
+      allow write: if isAuthenticated() &&
+        incomingData().size() == 5 &&
+        incomingData().name is string &&
+        incomingData().id is string &&
+        incomingData().password is string &&
+        isRequestedTime(incomingData().updatedAt);
+    }
+
+    match /tuesday/{tuesdayID} {
+      allow read: if isAuthenticated();
+      allow write: if isAuthenticated() &&
+        incomingData().size() == 5 &&
+        incomingData().name is string &&
+        incomingData().id is string &&
+        incomingData().password is string &&
+        isRequestedTime(incomingData().updatedAt);
+    }
+
+    match /wednesday/{wednesdayID} {
+      allow read: if isAuthenticated();
+      allow write: if isAuthenticated() &&
+        incomingData().size() == 5 &&
+        incomingData().name is string &&
+        incomingData().id is string &&
+        incomingData().password is string &&
+        isRequestedTime(incomingData().updatedAt);
+    }
+
+    match /thursday/{thursdayID} {
+      allow read: if isAuthenticated();
+      allow write: if isAuthenticated() &&
+        incomingData().size() == 5 &&
+        incomingData().name is string &&
+        incomingData().id is string &&
+        incomingData().password is string &&
+        isRequestedTime(incomingData().updatedAt);
+    }
+
+    match /friday/{fridayID} {
+      allow read: if isAuthenticated();
+      allow write: if isAuthenticated() &&
+        incomingData().size() == 5 &&
+        incomingData().name is string &&
+        incomingData().id is string &&
+        incomingData().password is string &&
+        isRequestedTime(incomingData().updatedAt);
+    }
+
+    match /saturday/{saturdayID} {
+      allow read: if isAuthenticated();
+      allow write: if isAuthenticated() &&
+        incomingData().size() == 5 &&
+        incomingData().name is string &&
+        incomingData().id is string &&
+        incomingData().password is string &&
+        isRequestedTime(incomingData().updatedAt);
+    }
+
+    match /users/{usersID} {
+      allow read: if isAuthenticated();
+    }
+  }
+}
