@@ -51,6 +51,5 @@ export const mutations = {
 
       state.date.push(date)
     }
-    console.log(state.date)
   }
 }
