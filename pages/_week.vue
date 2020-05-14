@@ -55,6 +55,7 @@
               top
               right
               elevation="3"
+              :disabled="!metting.id ? true : false"
             >
               <v-icon style="font-size: 1.5rem;">mdi-content-copy</v-icon>
             </v-btn>
@@ -81,6 +82,7 @@
               top
               right
               elevation="3"
+              :disabled="!metting.password ? true : false"
             >
               <v-icon style="font-size: 1.5rem;">mdi-content-copy</v-icon>
             </v-btn>
