@@ -74,7 +74,7 @@ type Data = {
 export default Vue.extend({
   head() {
     return {
-      title: `ZoomHaL / ログイン`
+      title: `ZoomHAL / ログイン`
     }
   },
 

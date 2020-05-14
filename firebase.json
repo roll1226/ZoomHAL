@@ -6,6 +6,7 @@
   "hosting": {
     "public": "dist/client",
     "ignore": [
+      "**/.*",
       "firebase.json",
       "**/node_modules/**"
     ],
@@ -14,10 +15,19 @@
         "source": "**",
         "function": "ssr"
       }
+    ],
+    "predeploy": [
+      "yarn copy:client",
+      "yarn copy:static"
     ]
   },
   "functions": {
     "source": "dist/server",
-    "predeploy": "npm --prefix \"$RESOURCE_DIR\" run build"
+    "predeploy":[
+      "yarn copy:functions",
+      "yarn copy:nuxt",
+      "yarn move:nuxt",
+      "npm --prefix \"$RESOURCE_DIR\" run build"
+    ]
   }
 }

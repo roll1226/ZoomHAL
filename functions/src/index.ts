@@ -4,7 +4,7 @@ const envs = functions.config().environment
 
 const nuxt = new Nuxt({
   dev: false,
-  buildDir: '.nuxt'
+  buildDir: 'nuxt'
 })
 
 Object.entries(envs).forEach((key, value) => {

@@ -13,9 +13,10 @@
     "clean:dist": "rm -rf dist && mkdir -p dist && cd dist && mkdir client",
     "copy:functions": "cp -R functions dist/server",
     "copy:nuxt": "cp -R .nuxt dist/server/",
+    "move:nuxt": "cd dist/server && mv .nuxt nuxt",
     "copy:static": "cp static/* dist/client/",
     "copy:client": "cp -r .nuxt/dist/client/* dist/client/",
-    "predeploy": "yarn build && yarn clean:dist && yarn copy:functions && yarn copy:nuxt && yarn copy:static && yarn copy:client",
+    "predeploy": "yarn build && yarn clean:dist",
     "deploy": "firebase deploy"
   },
   "dependencies": {

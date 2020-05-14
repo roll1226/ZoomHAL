@@ -155,7 +155,7 @@ export default Vue.extend({
         break
     }
     return {
-      title: `ZoomHaL / ${week}`
+      title: `ZoomHAL / ${week}`
     }
   },
 
