@@ -8,6 +8,6 @@
 
 ![モーダル](https://firebasestorage.googleapis.com/v0/b/zoom-hal.appspot.com/o/git%2FScreen%20Shot%202020-05-14%20at%207.40.01.png?alt=media&token=13ecf341-efdf-4df3-bb8e-eb2544bbfcb7)
 
-## 編集権限がない場合はボタンが表示されない
+## 編集権限がない場合は編集ボタンが表示されない
 
 ![権限なし](https://firebasestorage.googleapis.com/v0/b/zoom-hal.appspot.com/o/git%2FScreen%20Shot%202020-05-14%20at%207.45.25.png?alt=media&token=ebdbd547-2e58-4a4a-a6b1-a281e4e63e9f)
