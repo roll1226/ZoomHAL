@@ -151,6 +151,10 @@ export default Vue.extend({
         week = '金曜日'
         break
 
+      case 'saturday':
+        week = '土曜日'
+        break
+
       default:
         break
     }
@@ -179,7 +183,6 @@ export default Vue.extend({
       const dateList = this.$store.state.date.date
       const targetDate = dateList
         .filter((object: IDate) => {
-          // idが「1」の配列のみ返します。
           return object.week == this.$route.params.week
         })
         .shift()

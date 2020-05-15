@@ -38,8 +38,11 @@ export const mutations = {
     const afterWeek = date.indexOf(payload)
     const nowWeek = date.splice(afterWeek)
 
-    const countWeek = nowWeek.length - 1
-    for (let index = 0; index < countWeek; index++) {
+    for (
+      let index = 0;
+      index < Number(7 - nowWeek.length == 0) ? 0 : 7 - nowWeek.length;
+      index++
+    ) {
       nowWeek.push(date[index])
     }
 
