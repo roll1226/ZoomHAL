@@ -16,61 +16,109 @@ service cloud.firestore {
     match /monday/{mondayID} {
       allow read: if isAuthenticated();
       allow write: if isAuthenticated() &&
-        incomingData().size() == 5 &&
+        incomingData().size() == 6 &&
         incomingData().name is string &&
         incomingData().id is string &&
         incomingData().password is string &&
+        incomingData().multiple is bool &&
         isRequestedTime(incomingData().updatedAt);
+
+        match /subjects/subjectsList {
+          allow read: if isAuthenticated();
+          allow write: if isAuthenticated() &&
+            incomingData().subjects is list &&
+            isRequestedTime(incomingData().updatedAt);
+        }
     }
 
     match /tuesday/{tuesdayID} {
       allow read: if isAuthenticated();
       allow write: if isAuthenticated() &&
-        incomingData().size() == 5 &&
+        incomingData().size() == 6 &&
         incomingData().name is string &&
         incomingData().id is string &&
         incomingData().password is string &&
+        incomingData().multiple is bool &&
         isRequestedTime(incomingData().updatedAt);
+
+        match /subjects/subjectsList {
+          allow read: if isAuthenticated();
+          allow write: if isAuthenticated() &&
+            incomingData().subjects is list &&
+            isRequestedTime(incomingData().updatedAt);
+        }
     }
 
     match /wednesday/{wednesdayID} {
       allow read: if isAuthenticated();
       allow write: if isAuthenticated() &&
-        incomingData().size() == 5 &&
+        incomingData().size() == 6 &&
         incomingData().name is string &&
         incomingData().id is string &&
         incomingData().password is string &&
+        incomingData().multiple is bool &&
         isRequestedTime(incomingData().updatedAt);
+
+        match /subjects/subjectsList {
+          allow read: if isAuthenticated();
+          allow write: if isAuthenticated() &&
+            incomingData().subjects is list &&
+            isRequestedTime(incomingData().updatedAt);
+        }
     }
 
     match /thursday/{thursdayID} {
       allow read: if isAuthenticated();
       allow write: if isAuthenticated() &&
-        incomingData().size() == 5 &&
+        incomingData().size() == 6 &&
         incomingData().name is string &&
         incomingData().id is string &&
         incomingData().password is string &&
+        incomingData().multiple is bool &&
         isRequestedTime(incomingData().updatedAt);
+
+        match /subjects/subjectsList {
+          allow read: if isAuthenticated();
+          allow write: if isAuthenticated() &&
+            incomingData().subjects is list &&
+            isRequestedTime(incomingData().updatedAt);
+        }
     }
 
     match /friday/{fridayID} {
       allow read: if isAuthenticated();
       allow write: if isAuthenticated() &&
-        incomingData().size() == 5 &&
+        incomingData().size() == 6 &&
         incomingData().name is string &&
         incomingData().id is string &&
         incomingData().password is string &&
+        incomingData().multiple is bool &&
         isRequestedTime(incomingData().updatedAt);
+
+        match /subjects/subjectsList {
+          allow read: if isAuthenticated();
+          allow write: if isAuthenticated() &&
+            incomingData().subjects is list &&
+            isRequestedTime(incomingData().updatedAt);
+        }
     }
 
     match /saturday/{saturdayID} {
       allow read: if isAuthenticated();
       allow write: if isAuthenticated() &&
-        incomingData().size() == 5 &&
+        incomingData().size() == 6 &&
         incomingData().name is string &&
         incomingData().id is string &&
         incomingData().password is string &&
+        incomingData().multiple is bool &&
         isRequestedTime(incomingData().updatedAt);
+
+        match /subjects/subjectsList {
+          allow read: if isAuthenticated();
+          allow write: if isAuthenticated() &&
+            incomingData().subjects is list &&
+            isRequestedTime(incomingData().updatedAt);
+        }
     }
 
     match /users/{usersID} {

@@ -15,10 +15,12 @@ export interface IMeeting {
 
 interface IState {
   meetings: Array<IMeeting>
+  multiple: boolean
 }
 
 export const state = (): IState => ({
-  meetings: []
+  meetings: [],
+  multiple: false
 })
 
 export const mutations = {

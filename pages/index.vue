@@ -1,62 +1,68 @@
 <template>
   <div class="login_wrap d-flex justify-center align-center px-5">
     <Snackbar />
+    <template v-if="authLoading">
+      <Loading />
+    </template>
 
-    <v-card width="500" :loading="loading" :disabled="loading">
-      <v-card-text>
-        <p class="display-1 text--primary text-center">
-          ズームHAL
-        </p>
-        <div class="text-center">
-          オンライン授業を楽に
-        </div>
-        <div class="text-center">
-          〜 ほぼ自分のために 〜
-        </div>
-      </v-card-text>
+    <template v-else>
+      <v-card width="500" :loading="loading" :disabled="loading">
+        <v-card-text>
+          <p class="display-1 text--primary text-center">
+            ズームHAL
+          </p>
+          <div class="text-center">
+            オンライン授業を楽に
+          </div>
+          <div class="text-center">
+            〜 ほぼ自分のために 〜
+          </div>
+        </v-card-text>
 
-      <!-- <v-divider></v-divider> -->
+        <!-- <v-divider></v-divider> -->
 
-      <v-card-text class="pb-0">
-        <v-text-field
-          v-model="userId"
-          label="ユーザID"
-          append-icon="mdi-account"
-          :rules="[rules.isEmail, rules.emailFormat]"
-          hint="ゲストID or マスターIDを入力"
-        ></v-text-field>
-      </v-card-text>
+        <v-card-text class="pb-0">
+          <v-text-field
+            v-model="userId"
+            label="ユーザID"
+            append-icon="mdi-account"
+            :rules="[rules.isEmail, rules.emailFormat]"
+            hint="ゲストID or マスターIDを入力"
+          ></v-text-field>
+        </v-card-text>
 
-      <v-card-text class="pt-0">
-        <v-text-field
-          v-model="password"
-          :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
-          :type="showPassword ? 'text' : 'password'"
-          label="パスワード"
-          hint="パスワードを入力"
-          counter
-          :rules="[rules.required, rules.min]"
-          @click:append="showPassword = !showPassword"
-        ></v-text-field>
-      </v-card-text>
+        <v-card-text class="pt-0">
+          <v-text-field
+            v-model="password"
+            :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+            :type="showPassword ? 'text' : 'password'"
+            label="パスワード"
+            hint="パスワードを入力"
+            counter
+            :rules="[rules.required, rules.min]"
+            @click:append="showPassword = !showPassword"
+          ></v-text-field>
+        </v-card-text>
 
-      <v-card-actions>
-        <v-spacer></v-spacer>
-        <v-btn :disabled="!disabled" @click="login" color="blue darken-3">
-          <v-icon class="mr-1">
-            mdi-login
-          </v-icon>
-          ログイン
-        </v-btn>
-      </v-card-actions>
-    </v-card>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn :disabled="!disabled" @click="login" color="blue darken-3">
+            <v-icon class="mr-1">
+              mdi-login
+            </v-icon>
+            ログイン
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </template>
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
 import { auth } from '@/plugins/firebase'
-import Snackbar from '@/components/Snackbar.vue'
+import Snackbar from '~/components/Snackbar.vue'
+import Loading from '~/components/Loading.vue'
 
 type Data = {
   showPassword: boolean
@@ -69,6 +75,7 @@ type Data = {
     emailFormat: (v: string) => true | string
   }
   loading: boolean
+  authLoading: boolean
 }
 
 export default Vue.extend({
@@ -81,7 +88,8 @@ export default Vue.extend({
   layout: 'login',
 
   components: {
-    Snackbar
+    Snackbar,
+    Loading
   },
 
   data(): Data {
@@ -101,7 +109,8 @@ export default Vue.extend({
           )
         }
       },
-      loading: false
+      loading: false,
+      authLoading: true
     }
   },
 
@@ -115,6 +124,7 @@ export default Vue.extend({
   mounted() {
     this.$nextTick(async () => {
       await auth.onAuthStateChanged((user) => {
+        this.authLoading = false
         if (user) this.$router.push('/monday')
         else this.$router.push('/')
       })
