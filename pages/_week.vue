@@ -113,11 +113,12 @@
               </v-tab>
             </v-tabs>
 
-            <v-tabs-items v-model="tab" class="pt-10">
+            <v-tabs-items v-model="tab">
               <v-tab-item
                 :label="subject.name"
                 v-for="(subject, index) in meeting.subjects"
                 :key="`multiple-${index}-second`"
+                class="pt-10"
               >
                 <v-card color="#333" class="mx-auto" max-width="350">
                   <v-card-text>
