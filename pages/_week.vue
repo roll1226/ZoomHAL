@@ -15,13 +15,13 @@
       <v-card
         class="mx-auto mb-12"
         max-width="500"
-        v-for="(metting, index) in meetings"
+        v-for="(meeting, index) in meetings"
         :key="index"
       >
         <v-btn
           fab
           color="blue darken-3"
-          @click="editMeeting(metting)"
+          @click="editMeeting(meeting)"
           dark
           absolute
           top
@@ -35,65 +35,150 @@
         <v-card-text class="pb-6">
           <div>{{ index + 1 }}限目</div>
           <p class="display-1 text--primary">
-            {{ metting.name }}
+            {{ meeting.name }}
           </p>
           <p>
             {{ studyTime(index) }}
           </p>
 
-          <v-card color="#333" class="mx-auto" max-width="350">
-            <v-card-text>
-              <v-text-field
-                disabled
-                class="mt-0"
-                v-model="metting.id"
-                type="password"
-                label="ミーティングID"
-              ></v-text-field>
+          <template v-if="!meeting.multiple">
+            <v-card color="#333" class="mx-auto" max-width="350">
+              <v-card-text>
+                <v-text-field
+                  disabled
+                  class="mt-0"
+                  v-model="meeting.id"
+                  type="password"
+                  label="ミーティングID"
+                ></v-text-field>
 
-              <v-btn
-                fab
-                color="blue darken-3"
-                @click="clipboardId(metting.id)"
-                dark
-                small
-                absolute
-                top
-                right
-                elevation="3"
-                :disabled="!metting.id ? true : false"
+                <v-btn
+                  fab
+                  color="blue darken-3"
+                  @click="clipboardId(meeting.id)"
+                  dark
+                  small
+                  absolute
+                  top
+                  right
+                  elevation="3"
+                  :disabled="!meeting.id ? true : false"
+                >
+                  <v-icon style="font-size: 1.5rem;">mdi-content-copy</v-icon>
+                </v-btn>
+              </v-card-text>
+            </v-card>
+
+            <v-card color="#333" class="mx-auto mt-10" max-width="350">
+              <v-card-text>
+                <v-text-field
+                  disabled
+                  class="mt-0"
+                  v-model="meeting.password"
+                  type="password"
+                  label="パスワード"
+                ></v-text-field>
+
+                <v-btn
+                  fab
+                  color="blue darken-3"
+                  @click="clipboardPass(meeting.password)"
+                  dark
+                  small
+                  absolute
+                  top
+                  right
+                  elevation="3"
+                  :disabled="!meeting.password ? true : false"
+                >
+                  <v-icon style="font-size: 1.5rem;">mdi-content-copy</v-icon>
+                </v-btn>
+              </v-card-text>
+            </v-card>
+          </template>
+
+          <div v-else>
+            <v-tabs
+              v-model="tab"
+              background-color="transparent"
+              color="#fff"
+              grow
+            >
+              <v-tab
+                :label="subject.name"
+                v-for="(subject, index) in meeting.subjects"
+                :key="`multiple-${index}`"
               >
-                <v-icon style="font-size: 1.5rem;">mdi-content-copy</v-icon>
-              </v-btn>
-            </v-card-text>
-          </v-card>
+                {{ subject.name }}
+              </v-tab>
+            </v-tabs>
 
-          <v-card color="#333" class="mx-auto mt-10" max-width="350">
-            <v-card-text>
-              <v-text-field
-                disabled
-                class="mt-0"
-                v-model="metting.password"
-                type="password"
-                label="パスワード"
-              ></v-text-field>
-
-              <v-btn
-                fab
-                color="blue darken-3"
-                @click="clipboardPass(metting.password)"
-                dark
-                small
-                absolute
-                top
-                right
-                elevation="3"
-                :disabled="!metting.password ? true : false"
+            <v-tabs-items v-model="tab" class="pt-10">
+              <v-tab-item
+                :label="subject.name"
+                v-for="(subject, index) in meeting.subjects"
+                :key="`multiple-${index}-second`"
               >
-                <v-icon style="font-size: 1.5rem;">mdi-content-copy</v-icon>
-              </v-btn>
-            </v-card-text>
-          </v-card>
+                <v-card color="#333" class="mx-auto" max-width="350">
+                  <v-card-text>
+                    <v-text-field
+                      disabled
+                      class="mt-0"
+                      v-model="subject.id"
+                      type="password"
+                      label="ミーティングID"
+                    ></v-text-field>
+
+                    <v-btn
+                      fab
+                      color="blue darken-3"
+                      @click="clipboardId(subject.id)"
+                      dark
+                      small
+                      absolute
+                      top
+                      right
+                      elevation="3"
+                      :disabled="!subject.id ? true : false"
+                    >
+                      <v-icon style="font-size: 1.5rem;"
+                        >mdi-content-copy</v-icon
+                      >
+                    </v-btn>
+                  </v-card-text>
+                </v-card>
+
+                <v-card color="#333" class="mx-auto mt-10" max-width="350">
+                  <v-card-text>
+                    <v-text-field
+                      disabled
+                      class="mt-0"
+                      v-model="subject.password"
+                      type="password"
+                      label="パスワード"
+                    ></v-text-field>
+
+                    <v-btn
+                      fab
+                      color="blue darken-3"
+                      @click="clipboardPass(subject.password)"
+                      dark
+                      small
+                      absolute
+                      top
+                      right
+                      elevation="3"
+                      :disabled="!subject.password ? true : false"
+                    >
+                      <v-icon style="font-size: 1.5rem;"
+                        >mdi-content-copy</v-icon
+                      >
+                    </v-btn>
+                  </v-card-text>
+                </v-card>
+              </v-tab-item>
+            </v-tabs-items>
+          </div>
         </v-card-text>
       </v-card>
 
@@ -124,7 +209,7 @@ import { IDate } from '@/store/date'
 
 type Data = {
   isMaster: boolean
-  loading: boolean
+  tab: number
 }
 
 const clipbord = (text: string): boolean => {
@@ -181,13 +266,17 @@ export default Vue.extend({
   data(): Data {
     return {
       isMaster: false,
-      loading: true
+      tab: 0
     }
   },
 
   computed: {
     meetings(): IMeeting {
       return this.$store.state.meeting.meetings
+    },
+
+    loading(): boolean {
+      return this.$store.state.meeting.loading
     },
 
     date(): IDate {
@@ -233,7 +322,6 @@ export default Vue.extend({
 
           if (!isUser.empty) this.isMaster = true
         } else this.$router.push('/')
-        this.loading = false
       })
     })
   },

@@ -23,7 +23,7 @@ service cloud.firestore {
         incomingData().multiple is bool &&
         isRequestedTime(incomingData().updatedAt);
 
-        match /subjects/subjectsList {
+        match /subjects/{subjectsID} {
           allow read: if isAuthenticated();
           allow write: if isAuthenticated() &&
             incomingData().subjects is list &&
@@ -41,7 +41,7 @@ service cloud.firestore {
         incomingData().multiple is bool &&
         isRequestedTime(incomingData().updatedAt);
 
-        match /subjects/subjectsList {
+        match /subjects/{subjectsID} {
           allow read: if isAuthenticated();
           allow write: if isAuthenticated() &&
             incomingData().subjects is list &&
@@ -59,7 +59,7 @@ service cloud.firestore {
         incomingData().multiple is bool &&
         isRequestedTime(incomingData().updatedAt);
 
-        match /subjects/subjectsList {
+        match /subjects/{subjectsID} {
           allow read: if isAuthenticated();
           allow write: if isAuthenticated() &&
             incomingData().subjects is list &&
@@ -77,7 +77,7 @@ service cloud.firestore {
         incomingData().multiple is bool &&
         isRequestedTime(incomingData().updatedAt);
 
-        match /subjects/subjectsList {
+        match /subjects/{subjectsID} {
           allow read: if isAuthenticated();
           allow write: if isAuthenticated() &&
             incomingData().subjects is list &&
@@ -95,7 +95,7 @@ service cloud.firestore {
         incomingData().multiple is bool &&
         isRequestedTime(incomingData().updatedAt);
 
-        match /subjects/subjectsList {
+        match /subjects/{subjectsID} {
           allow read: if isAuthenticated();
           allow write: if isAuthenticated() &&
             incomingData().subjects is list &&
@@ -113,7 +113,7 @@ service cloud.firestore {
         incomingData().multiple is bool &&
         isRequestedTime(incomingData().updatedAt);
 
-        match /subjects/subjectsList {
+        match /subjects/{subjectsID} {
           allow read: if isAuthenticated();
           allow write: if isAuthenticated() &&
             incomingData().subjects is list &&

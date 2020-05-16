@@ -14,7 +14,7 @@
         <div>{{ turn }}限目</div>
 
         <v-row>
-          <v-col cols="5">
+          <v-col cols="7">
             <v-switch v-model="multiple" inset label="選択科目"></v-switch>
           </v-col>
         </v-row>
@@ -81,11 +81,26 @@
           </v-icon>
         </v-btn>
 
-        <v-btn color="primary" text @click="edit">
-          <v-icon>
-            mdi-telegram
-          </v-icon>
-        </v-btn>
+        <template v-if="!multiple">
+          <v-btn color="primary" text @click="edit" :disabled="!disabled">
+            <v-icon>
+              mdi-telegram
+            </v-icon>
+          </v-btn>
+        </template>
+
+        <template v-if="multiple">
+          <v-btn
+            color="primary"
+            text
+            @click="edit"
+            :disabled="!multipledisabled"
+          >
+            <v-icon>
+              mdi-telegram
+            </v-icon>
+          </v-btn>
+        </template>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -112,6 +127,7 @@ type Data = {
   multipleSubject: Array<number>
   subjects: number
   subjectsList: Array<Subjects>
+  multipledisabled: boolean
 }
 
 export default Vue.extend({
@@ -136,22 +152,59 @@ export default Vue.extend({
           password: '',
           name: ''
         }
-      ]
+      ],
+      multipledisabled: false
     }
   },
 
   watch: {
     subjects(val: number) {
-      const list = {
-        id: '',
-        password: '',
-        name: ''
-      }
       this.subjectsList = []
 
       for (let index = 0; index < val; index++) {
-        this.subjectsList.push(list)
+        this.subjectsList.push({
+          id: '',
+          password: '',
+          name: ''
+        })
       }
+    },
+
+    subjectsList: {
+      handler(val) {
+        let flag = false
+        for (let index = 0; index < this.subjectsList.length; index++) {
+          if (
+            this.subjectsList[index].id === '' ||
+            this.subjectsList[index].name === '' ||
+            this.subjectsList[index].password === ''
+          )
+            flag = false
+          else flag = true
+        }
+        this.multipledisabled = flag
+        console.log('hoge')
+      },
+      deep: true
+    },
+
+    multiple() {
+      this.name = ''
+      this.id = ''
+      this.password = ''
+      this.subjects = 2
+      this.subjectsList = [
+        {
+          id: '',
+          password: '',
+          name: ''
+        },
+        {
+          id: '',
+          password: '',
+          name: ''
+        }
+      ]
     }
   },
 
@@ -196,7 +249,6 @@ export default Vue.extend({
       this.$store.commit('editMeeting/SET_DIALOG', bool)
       this.$store.commit('editMeeting/SET_WEEK', '')
       this.$store.commit('editMeeting/SET_TURN', 0)
-      this.showPassword = false
       this.name = ''
       this.id = ''
       this.password = ''
@@ -260,8 +312,6 @@ export default Vue.extend({
             text: `${this.turn}限目を変更しました`
           })
         } else {
-          console.log('hoge')
-
           await week.doc(meeting.docs[0].id).update({
             name: '',
             id: '',
@@ -275,9 +325,14 @@ export default Vue.extend({
             .collection('subjects')
             .doc('subjectsList')
             .update({
-              subject: this.subjectsList,
+              subjects: this.subjectsList,
               updatedAt: timestamp
             })
+
+          this.$store.commit('meeting/SWAP_MEETINGS', {
+            turn: this.turn,
+            meetings: this.subjectsList
+          })
 
           this.$store.commit('snackbar/SET_SNACKBAR', {
             bool: true,
@@ -286,8 +341,6 @@ export default Vue.extend({
         }
         this.closeFunctions(false)
       } catch (error) {
-        console.log(error)
-
         this.$store.commit('snackbar/SET_SNACKBAR', {
           bool: true,
           text: '変更出来ませんでした。'
@@ -302,9 +355,28 @@ export default Vue.extend({
         const week = await firestore.collection(this.week)
         const meeting = await week.where('turn', '==', this.turn).get()
 
+        await week.doc(meeting.docs[0].id).update({
+          name: '',
+          id: '',
+          password: '',
+          updatedAt: timestamp,
+          multiple: false
+        })
+
         await week
           .doc(meeting.docs[0].id)
-          .update({ name: '', id: '', password: '', updatedAt: timestamp })
+          .collection('subjects')
+          .doc('subjectsList')
+          .update({
+            subjects: [
+              {
+                id: '',
+                name: '',
+                password: ''
+              }
+            ],
+            updatedAt: timestamp
+          })
 
         this.$store.commit('meeting/SWAP_MEETING', {
           name: '',
