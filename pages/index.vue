@@ -124,9 +124,11 @@ export default Vue.extend({
   mounted() {
     this.$nextTick(async () => {
       await auth.onAuthStateChanged((user) => {
-        this.authLoading = false
         if (user) this.$router.push('/monday')
-        else this.$router.push('/')
+        else {
+          this.authLoading = false
+          this.$router.push('/')
+        }
       })
     })
   },
