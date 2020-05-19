@@ -32,7 +32,8 @@ export const mutations = {
     const nowDateList = []
     for (let index = 0; index < 7; index++) {
       const nowDate = new Date(dateTime.setDate(dateTime.getDate() + 1))
-      nowDateList.push(nowDate.getDate())
+      nowDateList.push(nowDate.getDate() - 1)
+      // nowDateList[index] = nowDateList[index]
     }
 
     const afterWeek = date.indexOf(payload)
